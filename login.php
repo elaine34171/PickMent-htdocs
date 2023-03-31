@@ -17,14 +17,14 @@
     $result = mysqli_query($db, "SELECT * FROM pengguna WHERE nama_pengguna = '$username'") or die(mysqli_connect_error());
 
     if(mysqli_num_rows($result) > 0) {
-        $response["user"] = array();
+        $response['user'] = array();
 
         $passwordCheck = 0;
         while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
             if(password_verify($password, $row['kata_sandi'])) {
                 $user = array();
 
-                $user["uid"] = $row["id"];
+                $user['uid'] = $row['id'];
                 
                 array_push($response['user'], $user);
 
@@ -43,7 +43,7 @@
             $response['message'] = "Kata Sandi tidak sesuai.";
         }
     }
-    else{
+    else {
         $response['success'] = 0;
         $response['message'] = "Nama Pengguna belum terdaftar";
     }
