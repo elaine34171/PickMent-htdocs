@@ -13,7 +13,7 @@
 
     $db = mysqli_connect(DB_SERVER, DB_USER, DB_PASSWORD, DB_DATABASE) or die(mysqli_connect_error());
 
-    $result = mysqli_query($db, "SELECT * FROM kategori_mendali") or die(mysqli_connect_error());
+    $result = mysqli_query($db, "SELECT * FROM kategori_medali") or die(mysqli_connect_error());
 
     $response['badgeCategories'] = array();
     while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
@@ -21,6 +21,9 @@
 
         $badgeCategory['id'] = $row['id'];
         $badgeCategory['image'] = $row['gambar'];
+        $badgeCategory['title'] = $row['nama'];
+        $badgeCategory['description'] = $row['keterangan'];
+        $badgeCategory['target'] = "selesai";
 
         $colName = $row['syarat'];
         $resultTmp = mysqli_query($db, "SELECT $colName FROM pengguna WHERE id = '$uid' LIMIT 1") or die(mysqli_connect_error());
@@ -28,7 +31,7 @@
         $badgeCategory['counter'] = $counter[$colName];
 
         $tmp = $row['id'];
-        $resultTmp = mysqli_query($db, "SELECT id FROM mendali WHERE kategori = '$tmp'") or die(mysqli_connect_error());
+        $resultTmp = mysqli_query($db, "SELECT id FROM medali WHERE kategori = '$tmp'") or die(mysqli_connect_error());
         
         $badgeIds = "(";
         while($r = mysqli_fetch_array($resultTmp, MYSQLI_ASSOC)) {
@@ -36,18 +39,18 @@
         }
         $badgeIds = $badgeIds . "-1)";
 
-        $resultTmp = mysqli_query($db, "SELECT * FROM pengguna_memiliki_mendali WHERE pengguna = '$uid' AND mendali IN $badgeIds") or die(mysqli_connect_error());
+        $resultTmp = mysqli_query($db, "SELECT * FROM pengguna_memiliki_medali WHERE pengguna = '$uid' AND medali IN $badgeIds") or die(mysqli_connect_error());
         $status = mysqli_num_rows($resultTmp);
         $badgeCategory['status'] = "$status";
 
-        $resultTmp = mysqli_query($db, "SELECT * FROM mendali WHERE kategori = '$tmp'") or die(mysqli_connect_error());
+        $resultTmp = mysqli_query($db, "SELECT * FROM medali WHERE kategori = '$tmp'") or die(mysqli_connect_error());
         $counter = 0;
         while($r = mysqli_fetch_array($resultTmp, MYSQLI_ASSOC)) {
-            $badgeCategory['title'] = $r['nama'];
-            $badgeCategory['description'] = $r['keterangan'];
-            $badgeCategory['target'] = $r['syarat'];
-
             if($counter === $status) {
+                $badgeCategory['title'] = $r['nama'];
+                $badgeCategory['description'] = $r['keterangan'];
+                $badgeCategory['target'] = $r['syarat'];
+
                 break;
             }
             

@@ -18,9 +18,9 @@
     $firstRank = 0;
     $badge1 = 0;
     $badge2 = 0;
-    $frame = 0;
-    $namecard = 0;
-    $icon = 0;
+    $frame = 1;
+    $namecard = 1;
+    $icon = 1;
 
     require_once __DIR__ . '/dbconfig.php';
 
@@ -28,7 +28,7 @@
 
     $checkUsername = mysqli_query($db, "SELECT * FROM pengguna WHERE nama_pengguna = '$username'") or die(mysqli_connect_error());
 
-    if(mysqli_num_rows($checkUsername) < 0) {
+    if(mysqli_num_rows($checkUsername) === 0) {
         $result = mysqli_query(
             $db, "
                 INSERT INTO pengguna (
@@ -41,8 +41,8 @@
                     level,
                     jawaban_benar,
                     peringkat_satu_awal,
-                    mendali_1,
-                    mendali_2,
+                    medali_1,
+                    medali_2,
                     bingkai,
                     kartu_nama,
                     ikon
