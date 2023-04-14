@@ -19,6 +19,39 @@
     while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
         $profile = array();
 
+        date_default_timezone_set('Asia/Bangkok');
+        $endTime = date('Y-m-d H:i:s', strtotime('monday next week - 1 second'));
+        $checkUser = mysqli_query($db, "
+            SELECT *
+            FROM pengguna
+            WHERE 
+                waktu_berlaku_xp_mingguan = '$endTime' AND
+                id = '$uid'
+        ") or die(mysqli_connect_error());
+
+        if(mysqli_num_rows($checkUser) > 0) {
+            $resultTmp = mysqli_query($db, "
+                SELECT *
+                FROM pengguna
+                WHERE waktu_berlaku_xp_mingguan = '$endTime'
+                ORDER BY xp_mingguan DESC
+            ") or die(mysqli_connect_error());
+        
+            $counter = 1;
+            while($r = mysqli_fetch_array($resultTmp, MYSQLI_ASSOC)) {
+                if($r['id'] === $uid) {
+                    break;
+                }
+                $counter++;
+            }
+            $profile['rank'] = $counter;
+            $profile['weeklyXp'] = $row['xp_mingguan'];
+        }
+        else {
+            $profile['rank'] = "-";
+            $profile['weeklyXp'] = "0";
+        }
+
         $profile['username'] = $row['nama_pengguna'];
         $profile['status'] = $row['status_admin'];
         $profile['level'] = $row['level'];

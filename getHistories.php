@@ -29,7 +29,6 @@
         $setTitle = mysqli_fetch_array($resultTmp);
         $history['setTitle'] = $setTitle['judul'];
 
-        $tmp = $row['set_data'];
         $resultTmp = mysqli_query($db, "SELECT * FROM pengguna_mengerjakan_set WHERE set_data = '$tmp' ORDER BY skor DESC") or die(mysqli_connect_error());
         $counter = 1;
         while($r = mysqli_fetch_array($resultTmp, MYSQLI_ASSOC)) {
