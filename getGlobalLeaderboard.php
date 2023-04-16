@@ -27,17 +27,27 @@
         SELECT *
         FROM pengguna
         WHERE waktu_berlaku_xp_mingguan = '$endTime'
-        ORDER BY xp_mingguan DESC
+        ORDER BY xp_mingguan DESC, partisipasi DESC, jawaban_benar DESC, peringkat_satu_awal DESC
         LIMIT 5
     ") or die(mysqli_connect_error());
 
     $response['leaderboard'] = array();
+    $rank = 0;
+    $previousXp = 2147483647;
     while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
         $leaderboard = array();
 
         $leaderboard['uid'] = $row['id'];
         $leaderboard['username'] = $row['nama_pengguna'];
         $leaderboard['weeklyXp'] = $row['xp_mingguan'];
+        
+        $xp = (int) $row['xp_mingguan'];
+        if($xp < $previousXp) {
+            $rank++;
+        }
+        $previousXp = (int) $row['xp_mingguan'];
+        
+        $leaderboard['rank'] = $rank;
 
         $tmp = $row['ikon'];
         $resultTmp = mysqli_query($db, "SELECT gambar FROM ikon WHERE id = '$tmp' LIMIT 1") or die(mysqli_connect_error());

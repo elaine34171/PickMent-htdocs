@@ -34,17 +34,24 @@
                 SELECT *
                 FROM pengguna
                 WHERE waktu_berlaku_xp_mingguan = '$endTime'
-                ORDER BY xp_mingguan DESC
+                ORDER BY xp_mingguan DESC, jawaban_benar DESC, partisipasi DESC, peringkat_satu_awal DESC
             ") or die(mysqli_connect_error());
         
-            $counter = 1;
+            $rank = 0;
+            $previousXp = 2147483647;
             while($r = mysqli_fetch_array($resultTmp, MYSQLI_ASSOC)) {
+                $xp = (int) $r['xp_mingguan'];
+                if($xp < $previousXp) {
+                    $rank++;
+                }
+                $previousXp = (int) $r['xp_mingguan'];
+
                 if($r['id'] === $uid) {
                     break;
                 }
-                $counter++;
             }
-            $profile['rank'] = $counter;
+
+            $profile['rank'] = $rank;
             $profile['weeklyXp'] = $row['xp_mingguan'];
         }
         else {
