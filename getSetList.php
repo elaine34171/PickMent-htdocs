@@ -31,8 +31,12 @@
 
         $resultTmp = mysqli_query($db, "SELECT * FROM pengguna_mengerjakan_set WHERE set_data = '$tmp' AND pengguna = '$uid'") or die(mysqli_connect_error());
         $checkUser = mysqli_num_rows($resultTmp);
+        
+        $resultTmp = mysqli_query($db, "SELECT * FROM pengguna WHERE id = '$uid'") or die(mysqli_connect_error());
+        $userData = mysqli_fetch_array($resultTmp);
+        $language = $userData['preferensi_bahasa'];
 
-        if(($counter < (int) $row['kuota']) && $checkUser === 0) {
+        if(($counter < (int) $row['kuota']) && $checkUser === 0 && $language === $row['bahasa']) {
             array_push($response['list'], $list);
         }
     }

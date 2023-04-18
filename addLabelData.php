@@ -609,7 +609,7 @@
                     skor = '$newScore',
                     status_selesai = 1
                 WHERE
-                    set_data = '$id',
+                    set_data = '$id' AND
                     pengguna = '$thisUid'
             ");
 

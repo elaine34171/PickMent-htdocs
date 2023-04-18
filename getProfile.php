@@ -63,6 +63,7 @@
         $profile['status'] = $row['status_admin'];
         $profile['level'] = $row['level'];
         $profile['xp'] = $row['xp'];
+        $profile['participation'] = $row['partisipasi'];
 
         $profile['avatarId'] = $row['ikon'];
         $tmp = $row['ikon'];
