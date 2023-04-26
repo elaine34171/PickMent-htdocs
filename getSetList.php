@@ -36,7 +36,7 @@
         $userData = mysqli_fetch_array($resultTmp);
         $language = $userData['preferensi_bahasa'];
 
-        if(($counter < (int) $row['kuota']) && $checkUser === 0 && $language === $row['bahasa']) {
+        if(($counter < (int) $row['kuota']) && $checkUser === 0 && ($language === $row['bahasa'] || $language === "0")) {
             array_push($response['list'], $list);
         }
     }

@@ -47,6 +47,7 @@
         $namecardId = $userData['kartu_nama'];
         $badge1Id = $userData['medali_1'];
         $badge2Id = $userData['medali_2'];
+        $participation = $userData['partisipasi'];
 
         $resultTmp = mysqli_query($db, "SELECT gambar FROM ikon WHERE id = '$avatarId' LIMIT 1") or die(mysqli_connect_error());
         $avatarImage = mysqli_fetch_array($resultTmp);
@@ -89,6 +90,7 @@
             $response['badge1image'] = $leaderboard['badge1image'];
             $response['badge2image'] = $leaderboard['badge2image'];
             $response['score'] = $leaderboard['score'];
+            $response['participation'] = $participation;
         }
 
         if($rank <= 5) {
