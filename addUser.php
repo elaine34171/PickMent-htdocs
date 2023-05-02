@@ -12,8 +12,11 @@
     $status = 0;
     $language = 0;
     $weekly = 0;
+    date_default_timezone_set('Asia/Bangkok');
+    $endTime = date('Y-m-d H:i:s', strtotime('monday next week - 1 second'));
     $xp = 0;
     $level = 0;
+    $participation = 0;
     $correctAnswer = 0;
     $firstRank = 0;
     $badge1 = 0;
@@ -29,42 +32,60 @@
     $checkUsername = mysqli_query($db, "SELECT * FROM pengguna WHERE nama_pengguna = '$username'") or die(mysqli_connect_error());
 
     if(mysqli_num_rows($checkUsername) === 0) {
-        $result = mysqli_query(
-            $db, "
-                INSERT INTO pengguna (
-                    nama_pengguna,
-                    kata_sandi,
-                    status_admin,
-                    preferensi_bahasa,
-                    xp_mingguan,
-                    xp,
-                    level,
-                    jawaban_benar,
-                    peringkat_satu_awal,
-                    medali_1,
-                    medali_2,
-                    bingkai,
-                    kartu_nama,
-                    ikon
-                )
-                VALUES (
-                    '$username',
-                    '$password',
-                    '$status',
-                    '$language',
-                    '$weekly',
-                    '$xp',
-                    '$level',
-                    '$correctAnswer',
-                    '$firstRank',
-                    '$badge1',
-                    '$badge2',
-                    '$frame',
-                    '$namecard',
-                    '$icon'
-                )
-            "
-        );
+        $result = mysqli_query($db, "
+            INSERT INTO pengguna (
+                nama_pengguna,
+                kata_sandi,
+                status_admin,
+                preferensi_bahasa,
+                nama_lengkap,
+                tahun_lahir,
+                jenis_kelamin,
+                no_telepon,
+                email,
+                domisili,
+                pekerjaan,
+                pendidikan,
+                xp_mingguan,
+                waktu_berlaku_xp_mingguan,
+                xp,
+                level,
+                partisipasi,
+                jawaban_benar,
+                peringkat_satu_awal,
+                medali_1,
+                medali_2,
+                bingkai,
+                kartu_nama,
+                ikon
+            )
+            VALUES (
+                '$username',
+                '$password',
+                '$status',
+                '$language',
+                '',
+                0,
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '$weekly',
+                '$endTime',
+                '$xp',
+                '$level',
+                '$participation',
+                '$correctAnswer',
+                '$firstRank',
+                '$badge1',
+                '$badge2',
+                '$frame',
+                '$namecard',
+                '$icon'
+            )
+        ");
 
         if($result) {
             $response['success'] = 1;
